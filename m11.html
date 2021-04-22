@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script> 
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script> 
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script> 
+    <title>
+        BMI and Simple Calculator
+    </title>
+    <style></style>
+    <link rel="stylesheet" href="m11.css">
+    
+</head>
+<body>
+<div class="container-fluid">
+    <div  class="row">
+        <div class="col" style="background-color:lavender;">
+          
+            <h3>BMI Calculator</h3>
+            <p  id="bmicalculator"></p>
+            
+          
+        </div>
+      
+        <div class="col" style="background-color:orange;">
+          
+            <h3>Simple Calculator</h3>
+            <div id="simplecalculator" ></div>
+            
+          
+          
+        </div>
+    </div>
+</div>  
+ 
+    <script type="text/babel">
+        
+        class Bmi extends React.Component{
+            constructor(props) {
+                    super(props);
+                    this.state={ 
+                        weight: "",
+                        height: "",
+                        answer:"",
+                        string:"",
+                        
+                    }
+                }
+            render() {
+                return (
+                <div id="bmi">
+                    <h1>Check Your Body BMI</h1>
+                    <label for= "Firstnum"> Weight {'\u00A0'}{'\u00A0'}{'\u00A0'}{'\u00A0'} </label>
+                    <input id ="Firstnum" onChange={this.updatenum1} value={this.state.num1}  type="number" placeholder="Enter Weight in Kgs"></input><br></br><br></br>
+                    <label for= "Secondnum"> Height {'\u00A0'}{'\u00A0'}{'\u00A0'}{'\u00A0'} </label>
+                    <input id ="Secondnum" onChange={this.updatenum2} value={this.state.num2} type="number" placeholder="Enter Height in Meters"></input><br/><br/>
+                    <button onClick={this.addition}> Check BMI </button>
+                    <h2>{this.state.answer}</h2>
+                    <h2>{this.state.string}</h2>
+                    <br/>
+                    <br/>
+                    <p>BMI = Weight (kg)/Height (m)2</p>
+                </div>
+
+                );
+            }
+              updatenum1 = (event) =>{
+                    this.setState({
+                        weight: event.target.value
+                    })
+                }
+
+                updatenum2 = (event) =>{
+                    this.setState({
+                        height: event.target.value
+                    })
+                }
+
+                addition = () => {
+                    this.setState({
+                        answer : Math.round(Number(this.state.weight)/(Math.pow(this.state.height,2))),
+                        
+                    })
+                }
+                message(){
+                    
+                    if( answer >= 18.5  && answer <= 24.99 ){
+                        this.setState({string: "You are in a healthy weight range : "}); 
+                    
+                    }
+                    else if(answer >= 25 && answer <= 29.9){
+                        message = "You are overweight";
+                    }
+                    else if(answer >= 30){
+                        message ="You are obese";
+                    }
+                    else if(answer < 18.5){
+                        message = "You are under weight";
+                    }
+                    
+                }
+                
+              
+        }
+        ReactDOM.render(<Bmi />,document.querySelector("#bmicalculator"));
+
+        class Calculator extends React.Component{
+
+                constructor(props) {
+                    super(props);
+                    this.state={ 
+                        num1: "",
+                        num2: "",
+                        answer:"",
+                        string:""
+                    }
+                }
+
+                render(){
+                    return(
+                        <div id="calc">
+                            <h1>Calculator</h1>
+                            <label for= "Firstnum"> First number {'\u00A0'}{'\u00A0'}{'\u00A0'}{'\u00A0'} </label>
+                            
+                            <input id ="Firstnum" onChange={this.updatenum1} value={this.state.num1}  type="text" placeholder="Enter First number"></input><br></br><br></br>
+                            
+                            <label for= "Secondnum"> Second number  {'\u00A0'}{'\u00A0'} </label>
+                            <input id ="Secondnum" onChange={this.updatenum2} value={this.state.num2} type="text" placeholder="Enter Second number"></input><br/><br/>
+                            <button onClick={this.addition}> Add </button>
+                            <button onClick={this.subtraction}> Subtract </button>
+                            <button onClick={this.multiplication}> Multiply </button>
+                            <button onClick={this.division}> Divide </button><br/><br/>
+                            <h2>{this.state.string}{this.state.answer}</h2>
+                        </div>
+                    );
+
+                }
+
+                updatenum1 = (event) =>{
+                    this.setState({
+                        num1: event.target.value
+                    })
+                }
+
+                updatenum2 = (event) =>{
+                    this.setState({
+                        num2: event.target.value
+                    })
+                }
+
+                addition = () => {
+                    this.setState({
+                        answer : parseInt(this.state.num1)+parseInt(this.state.num2),
+                        string: "The answer is : "
+                    })
+                }
+
+                subtraction = () => {
+                    this.setState({
+                        answer : parseInt(this.state.num1)-parseInt(this.state.num2),
+                        string: "The answer is : "
+                    })
+                }
+
+                multiplication = () => {
+                    this.setState({
+                        answer : parseInt(this.state.num1)*parseInt(this.state.num2),
+                        string: "The answer is : "
+                    })
+                }
+
+                division = () => {
+                    this.setState({
+                        answer : parseInt(this.state.num1)/parseInt(this.state.num2),
+                        string: "The answer is : "
+                    })
+                }
+            }
+        ReactDOM.render(<Calculator />,document.querySelector("#simplecalculator"));
+    </script>
+</body>
+</html>
